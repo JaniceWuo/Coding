@@ -35,7 +35,7 @@ class Solution:
         equations.sort(key = lambda x:x[1],reverse = True)
         for equa in equations:
             if equa[1]=='=':
-                uf.union(equa[0],equa[3])
+                uf.union(equa[0],equa[3])  #相等的话就合并
             else:
                 if uf.find(equa[0]) == uf.find(equa[3]):
                     return False
