@@ -41,3 +41,39 @@ class Solution:
                     return False
         return True
 ```
+
+```java
+class Solution {
+    public boolean equationsPossible(String[] equations) {
+        int len = equations.length;
+        int[] parent = new int[26];
+        for(int i = 0;i<26;i++) parent[i] = i; 
+        //要先进行==的处理
+        for(String str:equations){
+            if(str.charAt(1) == '='){
+                union(parent,str.charAt(0)-'a',str.charAt(3)-'a');
+            }
+        }
+        for(String str:equations){
+            if(str.charAt(1) == '!'){
+                if(findParent(parent,str.charAt(0)-'a') == findParent(parent,str.charAt(3)-'a')) return false;
+            }
+        }
+        return true;
+    }
+
+    //合并
+    public void union(int[] parent,int index1,int index2){
+        parent[findParent(parent,index2)] = findParent(parent,index1); 
+    }
+
+    //找父节点
+    public int findParent(int[] parent,int index){
+        while(parent[index]!=index){   //如果不等的话表示还没遍历到根节点 则要继续
+            parent[index] = parent[parent[index]];
+            index = parent[index];
+        }
+        return index;
+    }
+}
+```
