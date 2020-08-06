@@ -1,0 +1,30 @@
+## 题目
+在一个长度为 n 的数组 nums 里的所有数字都在 0～n-1 的范围内。数组中某些数字是重复的，但不知道有几个数字重复了，也不知道每个数字重复了几次。请找出数组中任意一个重复的数字。
+
+来源：力扣（LeetCode）
+链接：https://leetcode-cn.com/problems/shu-zu-zhong-zhong-fu-de-shu-zi-lcof
+著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+
+## 思考
+有好几种解法，比如插入set中，利用哈希表等等。
+但是最经典的是原地操作。利用长度为n且数字都在0-n-1范围内的特点，如果每个数都出现了且只出现一次的话，那排序后索引i对应的刚好是i。那我们就从左开始遍历，将当前的数放到它应该在的位置（用的是交换的方式），并且直到当前这个位置和位置上的数也是对应的。
+
+## code
+```java
+class Solution {
+    public int findRepeatNumber(int[] nums) {
+        int i = 0;
+        while(i < nums.length) {
+            if(nums[i] == i) {
+                i++;
+                continue;
+            }
+            if(nums[nums[i]] == nums[i]) return nums[i];
+            int tmp = nums[i];
+            nums[i] = nums[tmp];
+            nums[tmp] = tmp;
+        }
+        return -1;
+    }
+}
+```
