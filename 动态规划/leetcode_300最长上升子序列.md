@@ -56,3 +56,38 @@ class Solution:
                 d[loc] = nums[i]
         return len(d)
 ```
+第三种方法。也是采用了二分，但是跟上面的思想不一样。
+用一个数组保存当前的最长上升子序列，是严格递增的。因为要求最长，所以我们应该要让这个数组上升的缓慢些，比如说当前数组为[1,4]，接下来遇到了2，那么就应该把数组变为[1,2]，因为如果后面遇到了数字3，还可以组成[1,2,3]从而得到更长的上升子序列。
+所以难点就是找到应该替换的位置。用二分法，因为这个数组是递增有序的。
+```java
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        if(nums == null || n == 0) return 0;
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(nums[0]);
+        for(int i = 1; i < n;i++){
+            if(list.get(list.size()-1) < nums[i]){
+                list.add(nums[i]); //直接插在后面
+                continue;
+            }
+            int begin = 0;
+            int end = list.size() - 1;
+            while(begin <= end){
+                int mid = begin + (end - begin)/2;
+                if(list.get(mid) > nums[i]){
+                    end = mid - 1;
+                }else if(list.get(mid) < nums[i]){
+                    begin = mid+1;
+                }else{
+                    begin = mid;
+                    break;
+                }
+            }
+            list.set(begin,nums[i]);
+        }
+        return list.size();
+    }
+}
+```
+(重点掌握第三种方法的思想)
