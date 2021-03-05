@@ -45,3 +45,34 @@ class Solution {
     }
 }
 ```
+
+非递归版本，就是遍历比较大小。最好是定义一个辅助头节点，更方便。
+```java
+public class Solution {
+    /**
+     * 
+     * @param l1 ListNode类 
+     * @param l2 ListNode类 
+     * @return ListNode类
+     */
+    public ListNode mergeTwoLists (ListNode l1, ListNode l2) {
+        // write code here
+        if(l1==null) return l2;
+        if(l2==null) return l1;
+        ListNode head = new ListNode(0);
+        ListNode tail = head;
+        while(l1!=null && l2!=null){
+            if(l1.val <= l2.val){
+                tail.next = l1;
+                l1 = l1.next;
+            }else{
+                tail.next = l2;
+                l2 = l2.next;
+            }
+            tail = tail.next;
+        }
+        tail.next = l1 == null ? l2 : l1;
+        return head.next;
+    }
+}
+```
